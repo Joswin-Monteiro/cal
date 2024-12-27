@@ -9,7 +9,32 @@ week = {
     5: "Thursday",
     6: "Friday",
 }
- 
+
+zellers_week_to_week = {
+    1: 0,
+    2: 1,
+    3: 2,
+    4: 3,
+    5: 4,
+    6: 5,
+    0: 6,
+}
+
+month = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
+}
+
 def zellers_congruence(q:int, m:int, year: int) -> int:
     # m is the month (3 = March, 4 = April, 5 = May, ..., 14 = February)
     if m < 3:
@@ -28,18 +53,43 @@ def zellers_congruence(q:int, m:int, year: int) -> int:
     return int((q + (13 * (m+1))//5+ k + (k//4) + (j//4) - 2*j) % 7)
 
 def display_cal(day:int, mon:int, year:int):
-    # print(f"Day: {day}, month:{m}, k:{k}, j:{j}")
     week_of_date = zellers_congruence(day, mon, year)
-    print(week[week_of_date])
+    space = zellers_week_to_week[week_of_date]
+    print(f"     {month[mon]} {year}    ")
+    print("Su  Mo  Tu  We  Th  Fr  Sa")
+
+    if year % 4 == 0 and mon == 2:
+        max_date = 29
+    elif mon == 2:
+        max_date = 28
+    elif mon in [1, 3, 5, 7, 8, 10, 12]:
+        max_date = 31
+    else:
+        max_date = 30
+    
+    date = 1
+    counter = 1
+    for i in range(1 ,36):
+        if space > 0:
+            print("    ", end="")
+            space -= 1
+            continue
+        if date == max_date:
+            print(f"{date:02}")
+            break
+        if i % 7 == 0:
+            print(f"{date:02}")
+        else:
+            print(f"{date:02} ", end=" ")
+        date += 1
 
 def main():
     parser = argparse.ArgumentParser(description="Calendar cli program using python")
-    parser.add_argument("day", type=int, help="The day to highlight (1-31)")
     parser.add_argument("month", type=int, help="The month(1-12)")
     parser.add_argument("year", type=int, help="The year(e.g, 2024)")
     
     args = parser.parse_args()
-    display_cal(args.day, args.month, args.year)
+    display_cal(1, args.month, args.year)
 
 if __name__ == "__main__":
     main()
