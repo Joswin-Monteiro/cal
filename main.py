@@ -1,15 +1,5 @@
 import argparse
 
-week = {
-    0: "Saturday",
-    1: "Sunday",
-    2: "Monday",
-    3: "Tuesday",
-    4: "Wednesday",
-    5: "Thursday",
-    6: "Friday",
-}
-
 zellers_week_to_week = {
     1: 0,
     2: 1,
